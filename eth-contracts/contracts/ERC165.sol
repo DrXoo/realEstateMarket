@@ -23,7 +23,7 @@ contract ERC165 is Ownable {
         _;
     }
 
-    modifier Paused() 
+    modifier IsPaused() 
     {
         require(!_paused, "Contract is not paused");
         _;

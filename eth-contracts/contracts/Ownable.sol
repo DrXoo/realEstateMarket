@@ -6,10 +6,6 @@ contract Ownable {
         
     event ownershipTransfered(address newOwner);
 
-    function getOwner() view returns(address) {
-        return _owner;
-    }
-
     constructor() internal {
         _owner = msg.sender;
     }
@@ -17,6 +13,10 @@ contract Ownable {
     modifier onlyOwner() {
         require(msg.sender == _owner, "Only the owner can do this action");
         _;
+    }
+
+    function getOwner() internal view returns(address) {
+        return _owner;
     }
 
     function transferOwnership(address newOwner) public onlyOwner {
