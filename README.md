@@ -4,7 +4,7 @@ The capstone will build upon the knowledge you have gained in the course in orde
 
 ## RUN ZOKRATES 
 
-docker run -v /pathTo/zokrates/code:/home/zokrates/code -ti zokrates/zokrates /bin/bash
+docker run -v /pathTo/zokrates/code:/home/zokrates/code -ti zokrates/zokrates:0.4.6 /bin/bash
 
 # Project Resources
 

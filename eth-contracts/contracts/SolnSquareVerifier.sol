@@ -1,59 +1,73 @@
 pragma solidity >=0.4.21 <0.6.0;
 
-// TODO define a contract call to the zokrates generated solidity contract <Verifier> or <renamedVerifier>
+import './RealEstateMarket.sol';
+import './VerifierInterface.sol';
 
+contract SolnSquareVerifier is RealEstateMarket {
 
+    enum SolutionState { NONE, CREATED, VERIFIED, USED }
 
-// TODO define another contract named SolnSquareVerifier that inherits from your ERC721Mintable class
+    struct Solution {
+        uint256 id;
+        address tokenOwnerAddress;
+        SolutionState state;
+    }
 
+    VerifierInteface private verifierContract;
 
+    mapping(bytes32 => Solution) private solutions;
 
-// TODO define a solutions struct that can hold an index & an address
+    event SolutionAdded(uint256, address);
 
+    constructor(address verifierContractAddress) public {
+        verifierContract = VerifierInteface(verifierContractAddress);
+    }
 
-// TODO define an array of the above struct
+    function addSolution(uint256 _id) external {
+        bytes32 solutionHash = _hashSolution(_id, msg.sender);
 
+        require(solutions[solutionHash].state == SolutionState.NONE, "This solution already exists");
 
-// TODO define a mapping to store unique solutions submitted
+        Solution memory newSolution = Solution({
+            id: _id,
+            tokenOwnerAddress: msg.sender,
+            state: SolutionState.CREATED
+        });
 
+        solutions[solutionHash] = newSolution;
 
+        emit SolutionAdded(_id, msg.sender);
+    }
 
-// TODO Create an event to emit when a solution is added
+    function getSolutionState(uint256 _id, address _address) external view returns(SolutionState){
+        bytes32 solutionHash = _hashSolution(_id, _address);
+        return solutions[solutionHash].state;
+    }
 
+    function verifySolution(uint256 _solutionId, uint[2] calldata a, uint[2][2] calldata b, uint[2] calldata c, uint[2] calldata input) external {
+        bytes32 solutionHash = _hashSolution(_solutionId, msg.sender);
 
+        require(solutions[solutionHash].state == SolutionState.CREATED, "Invalid solution state");
 
-// TODO Create a function to add the solutions to the array and emit the event
+        bool result = verifierContract.verifyTx(a, b, c, input);
 
+        if(result == true) {
+            solutions[solutionHash].state = SolutionState.VERIFIED;
+        }
+    }
 
+    function mintNFT(uint256 _solutionId, uint256 _tokenId) external returns(bool) {
+        bytes32 solutionHash = _hashSolution(_solutionId, msg.sender);
 
-// TODO Create a function to mint new NFT only after the solution has been verified
-//  - make sure the solution is unique (has not been used before)
-//  - make sure you handle metadata as well as tokenSuplly
+        require(solutions[solutionHash].state == SolutionState.VERIFIED, "Solution is not verified");
 
-  
+        super._mint(msg.sender, _tokenId);
+        super._setTokenURI(_tokenId);
 
+        solutions[solutionHash].state = SolutionState.USED;
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    function _hashSolution(uint256 _id, address _addr) private pure returns (bytes32) {
+        return keccak256(abi.encodePacked(_id, _addr));
+    }
+}
