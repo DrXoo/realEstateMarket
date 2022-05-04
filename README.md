@@ -30,6 +30,16 @@ There is a simple WebApp to mint new tokens easily.
 
 npm run serve and access it from localhost:8080
 
+## OpenSea
+
+The example houses to buy from another account can be viewed here:
+
+https://testnets.opensea.io/bundles/houses-qM7
+
+
+![alt text](readmeAssets/boughtCollection.png)
+
+
 # Project Resources
 
 * [Remix - Solidity IDE](https://remix.ethereum.org/)
