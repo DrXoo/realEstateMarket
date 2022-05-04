@@ -1,4 +1,4 @@
-var solNSquareVerifier = artifacts.require('verifier');
+var squareVerifier = artifacts.require('verifier');
 
 contract('TestVerifier', accounts => {
 
@@ -25,7 +25,7 @@ contract('TestVerifier', accounts => {
 
     describe('Test verification with correct proof', function () {
         beforeEach(async function () { 
-            this.contract = await solNSquareVerifier.new({from: account_one});
+            this.contract = await squareVerifier.new({from: account_one});
         })
 
         it('Should pass verification with correct proof', async function () { 
@@ -41,7 +41,7 @@ contract('TestVerifier', accounts => {
 
     describe('Test verification with incorrect proof', function () {
         beforeEach(async function () { 
-            this.contract = await solNSquareVerifier.new({from: account_one});
+            this.contract = await squareVerifier.new({from: account_one});
         })
 
         it('Should not pass verification with incorrect proof', async function () { 
