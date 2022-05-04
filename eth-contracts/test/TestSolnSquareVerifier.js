@@ -30,14 +30,14 @@ contract('TestSolnSquareVerifier', accounts => {
     }
 
     describe('Test Solution flow', function () {
-        beforeAll(async function () { 
+        before(async function () { 
             this.contract = await solNSquareVerifier.new({from: account_one});
         })  
 
         it('Should add a new solution', async function () { 
             await this.contract.addSolution(1, {from: account_one});
             const state = await this.contract.getSolutionState(1, account_one);
-            assert.equals(state, solutionState.CREATED);
+            assert.equal(state, solutionState.CREATED);
         })
 
         it('Should verify the solution', async function () { 
@@ -48,7 +48,7 @@ contract('TestSolnSquareVerifier', accounts => {
                 correctProof.inputs, {from: account_one});
 
             const state = await this.contract.getSolutionState(1, account_one);
-            assert.equals(state, solutionState.VERIFIED);
+            assert.equal(state, solutionState.VERIFIED);
         })
 
         it('Should mint a new token for contract using the solution', async function () { 
@@ -60,7 +60,7 @@ contract('TestSolnSquareVerifier', accounts => {
 
             assert.equal(tokenOwner, account_one);
             assert.equal(totalSupply, 1);
-            assert.equals(state, solutionState.USED);
+            assert.equal(state, solutionState.USED);
         })
     });
 })

@@ -46,7 +46,6 @@ contract ERC721Metadata is ERC721Enumerable, usingOraclize {
     }
 
     function _setTokenURI(uint256 tokenId) internal {
-        require(bytes(_tokenURIs[tokenId]).length != 0, "Token ID must exist");
         _tokenURIs[tokenId] = strConcat(_baseTokenURI, uint2str(tokenId));
     }
 }

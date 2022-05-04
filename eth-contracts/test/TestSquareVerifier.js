@@ -35,7 +35,7 @@ contract('TestVerifier', accounts => {
                 correctProof.proof.c,
                 correctProof.inputs);
 
-            assert.equals(result, true);
+            assert.equal(result.logs[0].event, 'Verified');
         })
     });
 
@@ -53,7 +53,7 @@ contract('TestVerifier', accounts => {
                 correctProof.proof.c,
                 correctProof.inputs);
 
-            assert.equals(result, false);
+            assert.equal(result, false);
         })
     });
 })

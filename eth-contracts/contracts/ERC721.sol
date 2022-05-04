@@ -45,7 +45,7 @@ contract ERC721 is ERC165 {
     }
 
     function balanceOf(address owner) public view returns (uint256) {
-        return Counters.current(_ownedTokensCount[owner]);
+        return _ownedTokensCount[owner].current();
     }
 
     function ownerOf(uint256 tokenId) public view returns (address) {
@@ -91,7 +91,7 @@ contract ERC721 is ERC165 {
     }
 
     function transferFrom(address from, address to, uint256 tokenId) public {
-        require(_isApprovedOrOwner(msg.sender, tokenId));
+        require(_isApprovedOrOwner(msg.sender, tokenId), "Sender is not approved or is not owner");
 
         _transferFrom(from, to, tokenId);
     }
@@ -133,12 +133,12 @@ contract ERC721 is ERC165 {
         if(_tokenOwner[tokenId] != address(0x0)) {
             revert("Token already exists");
         }
-        if(to != address(0x0)) {
+        if(to == address(0x0)) {
             revert("Given address is invalid");
         }
 
         _tokenOwner[tokenId] = to;
-        Counters.increment(_ownedTokensCount[to]);
+        _ownedTokensCount[to].increment();
 
         emit Transfer(msg.sender, to, tokenId);
     }
@@ -151,8 +151,8 @@ contract ERC721 is ERC165 {
         
         delete(_tokenApprovals[tokenId]);
 
-        Counters.decrement(_ownedTokensCount[from]);
-        Counters.increment(_ownedTokensCount[to]);
+        _ownedTokensCount[from].decrement();
+        _ownedTokensCount[to].increment();
         _tokenOwner[tokenId] = to;
 
         emit Transfer(from, to, tokenId);
