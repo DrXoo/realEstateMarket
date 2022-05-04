@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mint tokens test DApp</title>
+</head>
+
+<body>
+    <div>
+        <label>Contract Json</label>  
+        <input type="file" id="contractFile">
+        <br>
+        <label>Contract Address</label>
+        <input type="text" id="contractAddress" value="0xE211830bA3B5FB6b4bcAF5134adEca3334539C81">
+        <br>
+        <button onclick="App.loadContract()">Load contract</button>
+        <br>
+        <br>
+        <br>
+        <div>
+            <button onclick="App.getOwner()">Show Owner</button>
+            <label id="owner"></label>
+        </div>
+        <br>
+        <div>
+            <label>Solution Id</label>
+            <input type="number" id="solutionId">
+        </div>
+        <div>
+            <label>Token Id</label>
+            <input type="number" id="tokenId">
+        </div>
+        <button onclick="App.addSolution()">Add Solution</button>
+        <button onclick="App.verifySolution()">Verify Solution</button>
+        <button onclick="App.mintToken()">Mint new token</button>
+        <button onclick="App.solutionStatus()">Show solution status</button>
+        <div>
+            <textarea id="debug">
+
+            </textarea>
+        </div>
+    </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

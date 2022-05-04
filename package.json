@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "lite-server",
+    "serve": "http-server ./eth-contracts/src/",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -14,8 +15,10 @@
     "lite-server": "2.4.0"
   },
   "dependencies": {
+    "http-server": "^14.1.0",
     "openzeppelin-solidity": "^2.2.0",
     "solc": "^0.5.2",
-    "solc-js": "^0.5.2"
+    "solc-js": "^0.5.2",
+    "truffle-hdwallet-provider": "^1.0.17"
   }
 }
