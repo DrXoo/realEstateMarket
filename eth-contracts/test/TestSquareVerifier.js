@@ -29,13 +29,13 @@ contract('TestVerifier', accounts => {
         })
 
         it('Should pass verification with correct proof', async function () { 
-            var result = await this.contract.verifyTx(
+            var result = await this.contract.verifyTx.call(
                 correctProof.proof.a,
                 correctProof.proof.b,
                 correctProof.proof.c,
                 correctProof.inputs);
 
-            assert.equal(result.logs[0].event, 'Verified');
+            assert.equal(result, true);
         })
     });
 
@@ -46,12 +46,11 @@ contract('TestVerifier', accounts => {
 
         it('Should not pass verification with incorrect proof', async function () { 
 
-            var result = await this.contract.verifyTx(
-                ["0x0000000000000000000000000000000000000000000000000000000000000009", 
-                "0x0000000000000000000000000000000000000000000000000000000000000003"],
+            var result = await this.contract.verifyTx.call(
+                correctProof.proof.a,
                 correctProof.proof.b,
                 correctProof.proof.c,
-                correctProof.inputs);
+                ["0x0000000000000000000000000000000000000000000000000000000000000609", "0x0000000000000000000000000000000000000000020000000000000000000001"]);
 
             assert.equal(result, false);
         })
